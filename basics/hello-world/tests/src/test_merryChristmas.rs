@@ -38,5 +38,4 @@ fn test_merry_christmas() {
         .expect("");
 
     println!("Your transaction signature {}", tx);
-    msg!("Hello, world! From Solana smart contract");
 }
