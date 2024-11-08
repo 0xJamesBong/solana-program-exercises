@@ -26,7 +26,7 @@ pub mod on_chain_voting {
     pub fn gib_vote(ctx: Context<GibVote>, vote_type: VoteType) -> Result<()> {
         // If vote_type is GM increment GM by 1 else increment GN by 1
         match vote_type {
-            VoteType::Gm => {
+            VoteType::GM => {
                 msg!("Voted for GM  🤝");
                 ctx.accounts.vote_account.gm += 1;
             }
@@ -40,10 +40,9 @@ pub mod on_chain_voting {
 }
 
 #[derive(Accounts)]
-
 pub struct InitVote<'info> {
     // Making a global account for storing votes
-    #[account(init, payer = signer, space = 8+1+8+8,)]
+    #[account(init, payer = signer, space = VoteBank::INIT_SPACE + 8)]
     pub vote_account: Account<'info, VoteBank>,
     #[account(mut)]
     pub signer: Signer<'info>,
@@ -51,7 +50,7 @@ pub struct InitVote<'info> {
 }
 
 #[account]
-#[derive(Default)]
+#[derive(Default, Debug, InitSpace)]
 pub struct VoteBank {
     pub is_open_to_vote: bool,
     pub gm: u64,
@@ -68,6 +67,6 @@ pub struct GibVote<'info> {
 
 #[derive(AnchorSerialize, AnchorDeserialize)]
 pub enum VoteType {
-    Gm,
+    GM,
     GN,
 }
