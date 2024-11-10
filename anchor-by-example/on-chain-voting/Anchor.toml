@@ -11,8 +11,11 @@ on_chain_voting = "4c1xHGDjPz6DMzDRvTedYJzUc4yAdKbsYRSFNxbQrSSr"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "localnet"
 wallet = "~/.config/solana/id.json"
+
+[test]
+startup_wait = 10000
 
 [scripts]
 test = "cargo test"

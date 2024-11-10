@@ -3,24 +3,22 @@
 use anchor_client::{
     solana_sdk::{
         commitment_config::CommitmentConfig,
-        pubkey::Pubkey,
         signature::{read_keypair_file, Keypair, Signer},
     },
     Client, Cluster,
 };
-use on_chain_voting::{self, accounts, instruction};
-use std::str::FromStr; // Adjust the import to your module path
+use on_chain_voting::{self};
 
 #[test]
 fn test_initialize_vote_bank() {
     // Set up program and client
-    let program_id = "4c1xHGDjPz6DMzDRvTedYJzUc4yAdKbsYRSFNxbQrSSr";
     let anchor_wallet = std::env::var("ANCHOR_WALLET").unwrap();
     let payer = read_keypair_file(&anchor_wallet).unwrap();
 
     let client = Client::new_with_options(Cluster::Localnet, &payer, CommitmentConfig::confirmed());
 
-    let program_id = Pubkey::from_str(program_id).unwrap();
+    let program_id = on_chain_voting::id();
+
     let program = client.program(program_id).unwrap();
     let vote_bank = Keypair::new();
 
